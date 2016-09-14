@@ -1,0 +1,91 @@
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+
+		<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	</head>
+	<body>
+		<div ng-app="myApp" ng-controller="ctrl">
+<div class="jumbotron">
+		<h1> Gmail Tone Analyzer </h1>
+
+		<input type="number" ng-model="emailNumber" ng-change="autenticar()"  class="form-control input-lg"></input>
+
+		<table class="table table-striped">
+		  <tr>
+		  	<td><h3>{{data[0].category_name}}</h3></td>
+		  </tr>
+		  <tr>
+					  <p>
+						<td>{{data[0].tone_name}}</td>
+						<td>{{data[0].tones[0].tone_name}}</td>
+						<td>{{data[0].tones[0].score}}</td>
+					<td>	{{data[0].tones[1].tone_name}}</td>
+					<td>	{{data[0].tones[1].score}}</td>
+					<td>	{{data[0].tones[2].tone_name}}</td>
+					<td>	{{data[0].tones[2].score}}</td>
+					<td>	{{data[0].tones[3].tone_name}}</td>
+					<td>	{{data[0].tones[3].score}}</td>
+					<td>	{{data[0].tones[4].tone_name}}</td>
+					<td>	{{data[0].tones[4].score}}</td>
+					</p>
+		  </tr>
+		  <tr><td><h3>{{data[2].category_name}}</h3></td></tr>
+		  <tr>
+				  	<p>
+					<td>{{data[2].tone_name}}</td>
+					<td>{{data[2].tones[0].tone_name}}</td>
+					<td>{{data[2].tones[0].score}}</td>
+					<td>{{data[2].tones[1].tone_name}}</td>
+					<td>{{data[2].tones[1].score}}</td>
+					<td>{{data[2].tones[2].tone_name}}</td>
+					<td>{{data[2].tones[2].score}}</td>
+					<td>{{data[2].tones[3].tone_name}}</td>
+					<td>{{data[2].tones[3].score}}</td>
+					<td>{{data[2].tones[4].tone_name}}</td>
+					<td>{{data[2].tones[4].score}}</td>
+				</p>
+		  </tr>
+		  <tr><td><h3>{{data[1].category_name}}</td></h3>
+		  </tr>
+		  <tr>
+
+				<p>
+					<td>{{data[1].tone_name}}</td>
+					<td>{{data[1].tones[0].tone_name}}</td>
+					<td>{{data[1].tones[0].score}}</td>
+					<td>{{data[1].tones[1].tone_name}}</td>
+					<td>{{data[1].tones[1].score}}</td>
+					<td>{{data[1].tones[2].tone_name}}</td>
+					<td>{{data[1].tones[2].score}}</td>
+					<td>{{data[1].tones[3].tone_name}}</td>
+					<td>{{data[1].tones[3].score}}</td>
+				</p>
+		  </tr>
+		</table>
+
+</div>
+		</div>
+		<script>
+			var app = angular.module('myApp', []);
+			app.controller('ctrl', function($scope, $http) {
+
+				$scope.autenticar = function() {
+
+				    $http.get('/listarLabels', {params: {n: $scope.emailNumber}})
+				        .success(function(data) {
+				           $scope.data = data[1].document_tone.tone_categories;
+				           $scope.email = data[0];
+				           console.log(data[0]);
+				        })
+				        .error(function(data) {
+				            console.log('Error: ' + data);
+				        });
+				}
+
+			});
+		</script>
+	</body>
+</html>
